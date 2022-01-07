@@ -31,5 +31,5 @@ import { setJsonConfig } from './lib/json'
   if (!!need) {
     console.log(chalk.greenBright(install(manager.toString())))
   }
-  setJsonConfig()
+  setJsonConfig(manager)
 })()

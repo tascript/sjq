@@ -5,7 +5,7 @@ import { setConfig } from './config'
 import { ESLintConfig } from '~/src/interface'
 import { setPrecommit } from './package'
 
-const setJsonConfig = () => {
+const setJsonConfig = (manager: string) => {
   const { status, fileName, extension } = setConfigFile('.json')
   if (status === 'init') {
     const text = JSON.stringify(config, null, 2)
@@ -23,7 +23,7 @@ const setJsonConfig = () => {
     const text = JSON.stringify(config, null, 2)
     fs.writeFileSync(fileName, text)
   }
-  setPrecommit('.json', extension)
+  setPrecommit(manager, extension)
 }
 
 export {
