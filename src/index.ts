@@ -21,7 +21,7 @@ import { setJsonConfig } from './lib/json'
     {
       type: 'toggle',
       name: 'need',
-      message: "Can I install these packages?: 'eslint', 'eslint-plugin-jquery', 'husky', 'lint-staged', '@typescript-eslint/eslint-plugin', '@typescript-eslint/parser'",
+      message: "Can I install these packages?: 'eslint', 'eslint-plugin-jquery', 'husky', 'lint-staged', '@typescript-eslint/eslint-plugin', '@typescript-eslint/parser', 'eslint-plugin-diff'",
       initial: true,
       active: 'yes',
       inactive: 'no'

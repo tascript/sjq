@@ -9,7 +9,7 @@ const fileName = path.join(process.cwd(), 'package.json')
 
 const install = (manager: string): Buffer => {
   validJsonFile()
-  const packages = ['eslint', 'eslint-plugin-jquery', 'husky', 'lint-staged', '@typescript-eslint/eslint-plugin', '@typescript-eslint/parser']
+  const packages = ['eslint', 'eslint-plugin-jquery', 'husky', 'lint-staged', '@typescript-eslint/eslint-plugin', '@typescript-eslint/parser', 'eslint-plugin-diff']
   let command = ''
   switch (manager) {
     case 'npm':
