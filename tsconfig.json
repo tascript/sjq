@@ -1,0 +1,25 @@
+{
+  "compilerOptions": {
+    "target": "es2021",
+    "module": "esnext",
+    "moduleResolution": "node",
+    "lib": ["ES2020"], 
+    "allowJs": false,    
+    "rootDir": "./",
+    "strict": true,
+    "noImplicitAny": true,
+    "esModuleInterop": true,
+    "baseUrl": ".",
+    "paths": {
+      "~/*": ["./*"],
+    },
+    "resolveJsonModule": true,
+  },
+  "types": ["node"],
+  "include": [
+    "./src/**/*.ts", "./src/**/*.d.ts", "./example/**/*.ts", "./example/**/*.d.ts"
+  ],
+  "exclude":[
+    "node_modules"
+  ],
+}
