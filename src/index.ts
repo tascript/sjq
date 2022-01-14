@@ -2,10 +2,8 @@ import prompts from 'prompts'
 import chalk from 'chalk'
 import { install } from './lib/package'
 import { setJsonConfig } from './lib/json'
-import { args } from './lib/args'
 
 (async () => {
-  args.parse()
   const res = await prompts([
     {
       type: 'select',
