@@ -1,6 +1,7 @@
 import prompts from 'prompts'
 import chalk from 'chalk'
 import { install } from './lib/package'
+import { packageNames } from './lib/static'
 import { setJsonConfig } from './lib/json'
 
 (async () => {
@@ -21,7 +22,7 @@ import { setJsonConfig } from './lib/json'
     {
       type: 'toggle',
       name: 'need',
-      message: "Can I install these packages?: 'eslint', 'eslint-plugin-jquery', 'husky', 'lint-staged', '@typescript-eslint/eslint-plugin', '@typescript-eslint/parser', 'eslint-plugin-diff'",
+      message: `Can I install these packages?: ${packageNames}`,
       initial: true,
       active: 'yes',
       inactive: 'no'

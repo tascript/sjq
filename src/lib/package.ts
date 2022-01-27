@@ -3,13 +3,12 @@ import path from 'path'
 import { execSync } from 'child_process'
 import chalk from 'chalk'
 import { JsonConfig } from '~/src/interface'
-import { baseName } from './static'
+import { baseName, packages } from './static'
 
 const fileName = path.join(process.cwd(), 'package.json')
 
-const install = (manager: string): Buffer => {
+export const install = (manager: string): Buffer => {
   validJsonFile()
-  const packages = ['eslint', 'eslint-plugin-jquery', 'husky', 'lint-staged', '@typescript-eslint/eslint-plugin', '@typescript-eslint/parser', 'eslint-plugin-diff']
   let command = ''
   switch (manager) {
     case 'npm':
@@ -21,7 +20,7 @@ const install = (manager: string): Buffer => {
   return res
 }
 
-const setPrecommit = (manager: string, extension: string) => {
+export const setPrecommit = (manager: string, extension: string) => {
   validJsonFile()
   const obj = JSON.parse(fs.readFileSync(fileName, 'utf-8')) as JsonConfig
   obj['lint-staged'] = {
@@ -40,9 +39,4 @@ const validJsonFile = () => {
     console.log(chalk.red('Error: Please make package.json'))
     process.exit(1)
   }
-}
-
-export {
-  install,
-  setPrecommit
 }
