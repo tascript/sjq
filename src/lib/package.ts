@@ -1,23 +1,25 @@
 import fs from 'fs'
 import path from 'path'
-import { execSync } from 'child_process'
+import { execSync, spawn } from 'child_process'
 import chalk from 'chalk'
 import { JsonConfig } from '~/src/interface'
 import { baseName, packages } from './static'
 
 const fileName = path.join(process.cwd(), 'package.json')
 
-export const install = (manager: string): Buffer => {
+export const install = (manager: string) => {
   validJsonFile()
-  let command = ''
+  let words: string[] = []
   switch (manager) {
     case 'npm':
-      command = 'npm install -D '
+      words = ['install', '-D']
     case 'yarn':
-      command = 'yarn add -D '
+      words = ['add', '-D']
   }
-  const res = execSync(command + packages.join(' '))
-  return res
+  const res = spawn(manager, [...words, ...packages], { stdio: 'inherit' })
+  res.stdout?.on('daya', (c) => {
+    console.log(c.toString)
+  })
 }
 
 export const setPrecommit = (manager: string, extension: string) => {
@@ -30,8 +32,14 @@ export const setPrecommit = (manager: string, extension: string) => {
   }
   const text = JSON.stringify(obj, null, 2)
   fs.writeFileSync(fileName, text)
-  execSync('npx husky install')
-  execSync(`npx husky add .husky/pre-commit '${manager} lint-staged'`)
+  const installRes = spawn('npx', ['husky', 'install'], { stdio: 'inherit' })
+  installRes.stdout?.on('data', (c) => {
+    console.log(c.toString)
+  })
+  const preCommitRes = spawn('npx', ['husky', 'add', '.husky/pre-commit', manager, 'lint-staged'], { stdio: 'inherit' })
+  preCommitRes.stdout?.on('data', (c) => {
+    console.log(c.toString)
+  })
 }
 
 const validJsonFile = () => {
