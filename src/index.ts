@@ -29,6 +29,10 @@ import { setJsonConfig } from './lib/json'
     }
   ])
   const { manager, need } = res
+  if (manager === undefined || need === undefined) {
+    console.log(chalk.red('Error: Please select choices'))
+    return
+  }
   if (!!need) {
     install(manager.toString())
   }
