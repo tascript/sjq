@@ -14,7 +14,7 @@
   "files": [
     "LICENSE",
     "README.md",
-    "dist"
+    "dist/index.js"
   ],
   "author": "tascript",
   "license": "MIT",
