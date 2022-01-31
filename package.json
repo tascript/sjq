@@ -14,8 +14,11 @@
   "files": [
     "LICENSE",
     "README.md",
-    "dist/index.js"
+    "dist"
   ],
+  "bin": {
+    "sjq": "./dist/index.js"
+  },
   "author": "tascript",
   "license": "MIT",
   "dependencies": {
