@@ -4,10 +4,17 @@
   "description": "lint config generator for reducing jQuery",
   "main": "dist/index.js",
   "scripts": {
-    "build": "rollup -c rollup.config.ts"
+    "build": "rollup -c rollup.config.ts",
+    "prepare": "yarn run build"
   },
   "keywords": [
-    "lint"
+    "lint",
+    "jquery"
+  ],
+  "files": [
+    "LICENSE",
+    "README.md",
+    "dist"
   ],
   "author": "tascript",
   "license": "MIT",
