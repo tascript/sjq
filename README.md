@@ -6,16 +6,8 @@ sjq is lint config generator for reducing jQuery.
 
 ## Install
 
-npm
-
 ```shell
-$ npm install sjq
-```
-
-yarn
-
-```shell
-$ yarn add sjq
+$ npm install -g sjq
 ```
 
 ## Usage
