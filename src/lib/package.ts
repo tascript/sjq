@@ -30,7 +30,7 @@ export const setPrecommit = (manager: string, extension: string) => {
   const text = JSON.stringify(obj, null, 2)
   fs.writeFileSync(fileName, text)
   spawnSync('npx', ['husky', 'install'], { stdio: 'inherit' })
-  spawnSync('npx', ['husky', 'add', '.husky/pre-commit', `"${manager} lint-staged"`], { stdio: 'inherit' })
+  spawnSync('npx', ['husky', 'add', '.husky/pre-commit', `${manager} lint-staged`], { stdio: 'inherit' })
 }
 
 const validJsonFile = () => {
