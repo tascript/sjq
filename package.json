@@ -1,6 +1,6 @@
 {
   "name": "sjq",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "lint config generator for reducing jQuery",
   "main": "dist/index.js",
   "scripts": {
