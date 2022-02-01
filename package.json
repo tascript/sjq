@@ -1,6 +1,6 @@
 {
   "name": "sjq",
-  "version": "0.0.3",
+  "version": "0.0.5",
   "description": "lint config generator for reducing jQuery",
   "main": "dist/index.js",
   "scripts": {
@@ -14,10 +14,11 @@
   "files": [
     "LICENSE",
     "README.md",
+    "bin",
     "dist"
   ],
   "bin": {
-    "sjq": "./dist/index.js"
+    "sjq": "./bin/sjq.js"
   },
   "author": "tascript",
   "license": "MIT",
