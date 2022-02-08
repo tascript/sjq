@@ -22,6 +22,10 @@ export const install = (manager: string) => {
 export const setPrecommit = (manager: string, extension: string) => {
   validJsonFile()
   const obj = JSON.parse(fs.readFileSync(fileName, 'utf-8')) as JsonConfig
+  obj['scripts'] = {
+    ...obj['scripts'],
+    'sjq:prepare': 'husky install'
+  }
   obj['lint-staged'] = {
     './**/*.{js,jsx,ts,tsx}': [
       `eslint --config ${baseName + extension} --fix`

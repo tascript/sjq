@@ -14,6 +14,6 @@ export const config = {
     sourceType: 'module'
   }
 } as const
-export const packages = ['eslint', 'eslint-plugin-jquery', 'husky', 'lint-staged', '@typescript-eslint/eslint-plugin', '@typescript-eslint/parser', 'eslint-plugin-diff'] as const
+export const packages = ['eslint', 'eslint-plugin-jquery', 'husky', 'lint-staged', 'typescript', '@typescript-eslint/eslint-plugin', '@typescript-eslint/parser', 'eslint-plugin-diff'] as const
 export const packageNames = packages.reduce((pre, cur) => pre + `'${cur}', `, '').slice(0, -2)
 export const baseName = '.eslintrc.sjq'

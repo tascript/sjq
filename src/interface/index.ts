@@ -9,12 +9,10 @@ export interface ESLintConfig extends Object {
 }
 
 export interface JsonConfig extends Object {
-  husky?: {
-    hooks?: {
-      'pre-commit'?: string
-    }
+  scripts?: {
+    [index: string]: string
   },
   'lint-staged': {
     [index: string]: string[]
-  }
+  },
 }
