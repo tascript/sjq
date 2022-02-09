@@ -24,7 +24,7 @@ export const setPrecommit = (manager: string, extension: string) => {
   const obj = JSON.parse(fs.readFileSync(fileName, 'utf-8')) as JsonConfig
   obj['scripts'] = {
     ...obj['scripts'],
-    'sjq:prepare': 'husky install'
+    'postinstall': 'husky install'
   }
   obj['lint-staged'] = {
     './**/*.{js,jsx,ts,tsx}': [
