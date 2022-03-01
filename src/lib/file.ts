@@ -1,7 +1,6 @@
 import fs from 'fs'
 import path from 'path'
-import { execSync } from 'child_process'
-import { baseName } from './static'
+import { baseName, ciBaseName, ciDirName } from './static'
 
 type Status = 'exist' | 'init'
 
@@ -11,11 +10,10 @@ interface SetConfigFileResponse {
   fileName: string
 }
 
-const setConfigFile = (extension: string): SetConfigFileResponse => {
+export const setConfigFile = (extension: string): SetConfigFileResponse => {
   const target = fs.existsSync(path.join(process.cwd(), baseName + extension))
   if (!target) {
-    const command = `touch ${baseName + extension}`
-    execSync(command)
+    fs.writeFileSync(path.join(process.cwd(), (baseName + extension)), '')
     return {
       extension,
       status: 'init',
@@ -29,6 +27,13 @@ const setConfigFile = (extension: string): SetConfigFileResponse => {
   }
 }
 
-export {
-  setConfigFile
+export const setCiFile = () => {
+  const targetDir = fs.existsSync(path.join(process.cwd(), ciDirName))
+  if (!targetDir) {
+    fs.mkdirSync(path.join(process.cwd(), ciDirName))
+  }
+  const targetFile = fs.existsSync(path.join(process.cwd(), ciDirName, ciBaseName))
+  if (!targetFile) {
+    fs.writeFileSync(path.join(process.cwd(), ciDirName, ciBaseName), '')
+  }
 }
