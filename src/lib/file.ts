@@ -1,6 +1,6 @@
 import fs from 'fs'
 import path from 'path'
-import { baseName, ciBaseName, ciDirName } from './static'
+import { baseName, ciBaseName, ciPriDirName, ciSecDirName } from './static'
 
 type Status = 'exist' | 'init'
 
@@ -27,13 +27,18 @@ export const setConfigFile = (extension: string): SetConfigFileResponse => {
   }
 }
 
-export const setCiFile = () => {
-  const targetDir = fs.existsSync(path.join(process.cwd(), ciDirName))
-  if (!targetDir) {
-    fs.mkdirSync(path.join(process.cwd(), ciDirName))
+export const setCiFile = (text: string) => {
+  const targetPriDir = fs.existsSync(path.join(process.cwd(), ciPriDirName))
+  if (!targetPriDir) {
+    fs.mkdirSync(path.join(process.cwd(), ciPriDirName))
   }
-  const targetFile = fs.existsSync(path.join(process.cwd(), ciDirName, ciBaseName))
+  const targetSecDir = fs.existsSync(path.join(process.cwd(), ciPriDirName, ciSecDirName))
+  if (!targetSecDir) {
+    fs.mkdirSync(path.join(process.cwd(), ciPriDirName, ciSecDirName))
+  }
+  const targetFile = fs.existsSync(path.join(process.cwd(), ciPriDirName, ciSecDirName, ciBaseName))
   if (!targetFile) {
-    fs.writeFileSync(path.join(process.cwd(), ciDirName, ciBaseName), '')
+    fs.writeFileSync(path.join(process.cwd(), ciPriDirName, ciSecDirName, ciBaseName), '')
+    fs.writeFileSync(path.join(process.cwd(), ciPriDirName, ciSecDirName, ciBaseName), text)
   }
 }
