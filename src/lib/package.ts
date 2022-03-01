@@ -44,6 +44,7 @@ export const generateInstallCommand = (manager: string): string[] => {
   switch (manager) {
     case 'npm':
       command = [manager, 'install', '-D']
+      break
     case 'yarn':
       command = [manager, 'add', '-D']
       break
