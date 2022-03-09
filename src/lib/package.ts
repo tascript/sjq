@@ -19,7 +19,7 @@ export const setPrecommit = (manager: string, extension: string) => {
   obj['scripts'] = {
     ...obj['scripts'],
     'postinstall': 'husky install',
-    'lint:sjq': `eslint -c ${baseName + extension}`
+    'lint:sjq': `eslint -c ${baseName + extension} --ext .js,.jsx,.ts,.tsx --fix .`
   }
   obj['lint-staged'] = {
     './**/*.{js,jsx,ts,tsx}': [
