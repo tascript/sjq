@@ -7,6 +7,8 @@ on: pull_request
 jobs:
   lint:
     runs-on: ubuntu-latest
+    env:
+      ESLINT_PLUGIN_DIFF_COMMIT: "\${{ github.event.pull_request.base.sha }}..\${{ github.event.pull_request.head.sha }}"
     steps:
       - uses: actions/checkout@v2
       - uses: actions/setup-node@v2
@@ -15,7 +17,7 @@ jobs:
       - name: Install packages
         run: ${install}
       - name: Lint jQuery
-        run: run: git diff origin/\${{ github.head_ref }} origin/\${{ github.base_ref }} --unified=0 --diff-filter=ACMRTUXB --name-only | grep '/.*\.\(tsx\?\|jsx\?\)$' | xargs npx eslint -c .eslintrc.sjq.json --fix
+        run: npx eslint -c .eslintrc.sjq.json --ext .js,.jsx,.ts,.tsx --fix .
 `
   setCiFile(text)
 }
