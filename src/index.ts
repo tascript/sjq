@@ -3,7 +3,6 @@ import chalk from 'chalk'
 import { install } from './lib/package'
 import { packageNames } from './lib/static'
 import { setJsonConfig } from './lib/json'
-import { generateCiConfig } from './lib/yaml'
 
 (async () => {
   const res = await prompts([
