@@ -1,4 +1,5 @@
 import { setCiFile } from './file'
+import { CiConfigFileName } from './static'
 export const generateCiConfig = (manager: string) => {
   const install = manager === 'npm' ? `${manager} install` : manager
   const text = `
@@ -17,7 +18,7 @@ jobs:
       - name: Install packages
         run: ${install}
       - name: Lint jQuery
-        run: npx eslint -c .eslintrc.sjq.json --ext .js,.jsx,.ts,.tsx --fix .
+        run: npx eslint -c ${CiConfigFileName} --ext .js,.jsx,.ts,.tsx --fix .
 `
   setCiFile(text)
 }
