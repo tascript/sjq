@@ -25,5 +25,5 @@ export const setJsonConfig = (manager: string, isCi: boolean) => {
     const text = JSON.stringify(configText, null, 2)
     fs.writeFileSync(fileName, text)
   }
-  isCi ? generateCiConfig(manager) : setPrecommit(manager, extension)
+  isCi ? generateCiConfig(manager, extension) : setPrecommit(manager, extension)
 }

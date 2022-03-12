@@ -14,12 +14,11 @@ export const generateConfigText = (isCi: boolean) => {
       sourceType: 'module'
     }
   }
-  if (isCi) {
-    return base
-  }
-  base.extends.push('plugin:diff/staged')
+  const diff = isCi ? 'plugin:diff/diff' : 'plugin:diff/staged'
+  base.extends.push(diff)
   return base
 }
+
 export const packages = ['eslint', 'eslint-plugin-jquery', 'husky', 'lint-staged', 'typescript', '@typescript-eslint/eslint-plugin', '@typescript-eslint/parser', 'eslint-plugin-diff'] as const
 export const packageNames = packages.reduce((pre, cur) => pre + `'${cur}', `, '').slice(0, -2)
 export const localConfigFileName = '.eslintrc_local.sjq'
