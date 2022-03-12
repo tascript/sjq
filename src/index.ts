@@ -20,6 +20,19 @@ import { setJsonConfig } from './lib/json'
       ],
     },
     {
+      type: 'select',
+      name: 'environment',
+      message: "Please check environment",
+      choices: [
+        {
+          title: 'ci', value: 'ci'
+        },
+        {
+          title: 'local', value: 'local'
+        },
+      ],
+    },
+    {
       type: 'toggle',
       name: 'need',
       message: `Can I install these packages?: ${packageNames}`,
@@ -28,13 +41,13 @@ import { setJsonConfig } from './lib/json'
       inactive: 'no'
     }
   ])
-  const { manager, need } = res
-  if (manager === undefined || need === undefined) {
+  const { manager, environment, need } = res
+  if (manager === undefined || environment === undefined || need === undefined) {
     console.log(chalk.red('Error: Please select choices'))
     return
   }
   if (!!need) {
     install(manager.toString())
   }
-  setJsonConfig(manager)
+  setJsonConfig(manager, environment === 'ci')
 })()
