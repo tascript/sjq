@@ -15,7 +15,7 @@ jobs:
       - name: Install packages
         run: ${install}
       - name: Lint jQuery
-        run: ${manager} run lint:sjq
+        run: run: git diff origin/\${{ github.head_ref }} origin/\${{ github.base_ref }} --unified=0 --diff-filter=ACMRTUXB --name-only | grep '/.*\.\(tsx\?\|jsx\?\)$' | xargs npx eslint -c .eslintrc.sjq.json --fix
 `
   setCiFile(text)
 }
