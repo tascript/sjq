@@ -3,7 +3,7 @@ export const generateCiConfig = (manager: string) => {
   const install = manager === 'npm' ? `${manager} install` : manager
   const text = `
 name: sjq
-on: [push, pull_request]
+on: pull_request
 jobs:
   lint:
     runs-on: ubuntu-latest
