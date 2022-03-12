@@ -1,6 +1,6 @@
 import fs from 'fs'
 import path from 'path'
-import { baseName, ciBaseName, ciPriDirName, ciSecDirName } from './static'
+import { localConfigFileName, CiConfigFileName, ciBaseName, ciPriDirName, ciSecDirName } from './static'
 
 type Status = 'exist' | 'init'
 
@@ -10,20 +10,21 @@ interface SetConfigFileResponse {
   fileName: string
 }
 
-export const setConfigFile = (extension: string): SetConfigFileResponse => {
-  const target = fs.existsSync(path.join(process.cwd(), baseName + extension))
+export const setConfigFile = (extension: string, isCi: boolean): SetConfigFileResponse => {
+  const configFileName = isCi ? CiConfigFileName : localConfigFileName
+  const target = fs.existsSync(path.join(process.cwd(), configFileName + extension))
   if (!target) {
-    fs.writeFileSync(path.join(process.cwd(), (baseName + extension)), '')
+    fs.writeFileSync(path.join(process.cwd(), (configFileName + extension)), '')
     return {
       extension,
       status: 'init',
-      fileName: path.join(process.cwd(), baseName + extension)
+      fileName: path.join(process.cwd(), configFileName + extension)
     }
   }
   return {
     extension,
     status: 'exist',
-    fileName: path.join(process.cwd(), baseName + extension)
+    fileName: path.join(process.cwd(), configFileName + extension)
   }
 }
 

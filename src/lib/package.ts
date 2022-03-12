@@ -3,7 +3,7 @@ import path from 'path'
 import { spawnSync } from 'child_process'
 import chalk from 'chalk'
 import { JsonConfig } from '~/src/interface'
-import { baseName, packages } from './static'
+import { localConfigFileName, packages } from './static'
 
 const fileName = path.join(process.cwd(), 'package.json')
 
@@ -19,11 +19,11 @@ export const setPrecommit = (manager: string, extension: string) => {
   obj['scripts'] = {
     ...obj['scripts'],
     'postinstall': 'husky install',
-    'lint:sjq': `eslint -c ${baseName + extension} --ext .js,.jsx,.ts,.tsx --fix .`
+    'lint:sjq': `eslint -c ${localConfigFileName + extension} --ext .js,.jsx,.ts,.tsx --fix .`
   }
   obj['lint-staged'] = {
     './**/*.{js,jsx,ts,tsx}': [
-      `eslint --config ${baseName + extension} --fix`
+      `eslint --config ${localConfigFileName + extension} --fix`
     ]
   }
   const text = JSON.stringify(obj, null, 2)

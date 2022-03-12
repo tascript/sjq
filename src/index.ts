@@ -21,6 +21,19 @@ import { generateCiConfig } from './lib/yaml'
       ],
     },
     {
+      type: 'select',
+      name: 'environment',
+      message: "Please check environment",
+      choices: [
+        {
+          title: 'ci', value: 'ci'
+        },
+        {
+          title: 'local', value: 'local'
+        },
+      ],
+    },
+    {
       type: 'toggle',
       name: 'need',
       message: `Can I install these packages?: ${packageNames}`,
@@ -29,14 +42,13 @@ import { generateCiConfig } from './lib/yaml'
       inactive: 'no'
     }
   ])
-  const { manager, need } = res
-  if (manager === undefined || need === undefined) {
+  const { manager, environment, need } = res
+  if (manager === undefined || environment === undefined || need === undefined) {
     console.log(chalk.red('Error: Please select choices'))
     return
   }
   if (!!need) {
     install(manager.toString())
   }
-  setJsonConfig(manager)
-  generateCiConfig(manager)
+  setJsonConfig(manager, environment === 'ci')
 })()
