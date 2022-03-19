@@ -2019,7 +2019,10 @@ const execLint = () => {
         const text = JSON.stringify(configText, null, 2);
         fs__default["default"].writeFileSync(fileName, text);
     }
-    child_process.execSync(`npx eslint -c ${ciLintConfigFileName}${extension} --ext .js,.jsx,.ts,.tsx --fix .`);
+    const res = child_process.spawnSync('npx', ['eslint', '-c', `${ciLintConfigFileName}${extension}`, '--ext', '.js,.jsx,.ts,.tsx', '--fix', '.'], { stdio: 'inherit' });
+    if (res.stderr) {
+        process.exit(1);
+    }
 };
 
 const manager = getPackageManager();
