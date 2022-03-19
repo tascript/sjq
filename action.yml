@@ -1,10 +1,5 @@
 name: "sjq"
 description: "Lint for reducing jQuery code"
-inputs:
-  eslint-plugin-diff-commit:
-    description: "Env for git diff"
-    required: false
-    default: ${{ github.event.pull_request.base.sha }}..${{ github.event.pull_request.head.sha }}
 runs:
   using: node16
   main: dist/index.js
