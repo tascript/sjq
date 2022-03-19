@@ -2,7 +2,7 @@ import fs from 'fs'
 import { ESLintConfig } from '~/src/interface'
 import { generateLintConfigFile } from './file'
 import { ciLintConfigFileName, generateConfigText } from './static'
-import { spawnSync } from 'child_process'
+import { execSync } from 'child_process'
 
 export const generateLintConfig = (obj: ESLintConfig) => {
   if (obj.plugins) {
@@ -53,5 +53,5 @@ export const execLint = () => {
     const text = JSON.stringify(configText, null, 2)
     fs.writeFileSync(fileName, text)
   }
-  spawnSync('npx', ['eslint', '-c', `${ciLintConfigFileName}${extension}`, '--ext', '.js,.jsx,.ts,.tsx', '--fix', '.'], { stdio: 'inherit' })
+  execSync(`npx eslint -c ${ciLintConfigFileName}${extension} --ext .js,.jsx,.ts,.tsx --fix .`)
 }
