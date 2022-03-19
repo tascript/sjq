@@ -1,6 +1,8 @@
+import fs from 'fs'
 import { ESLintConfig } from '~/src/interface'
-import { setCiFile } from './file'
-import { ciLintConfigFileName } from './static'
+import { generateLintConfigFile } from './file'
+import { ciLintConfigFileName, generateConfigText } from './static'
+import { spawnSync } from 'child_process'
 
 export const generateLintConfig = (obj: ESLintConfig) => {
   if (obj.plugins) {
@@ -31,27 +33,25 @@ export const generateLintConfig = (obj: ESLintConfig) => {
     sourceType: 'module'
   }
 }
-export const generateCiConfig = (manager: string, extension: string) => {
-  const install = manager === 'npm' ? `${manager} install` : manager
-  const text = `
-name: sjq
-on: pull_request
-jobs:
-  lint:
-    runs-on: ubuntu-latest
-    env:
-      ESLINT_PLUGIN_DIFF_COMMIT: "\${{ github.event.pull_request.base.sha }}..\${{ github.event.pull_request.head.sha }}"
-    steps:
-      - uses: actions/checkout@v2
-        with:
-          fetch-depth: 0
-      - uses: actions/setup-node@v2
-        with:
-          node-version: '14'
-      - name: Install packages
-        run: ${install}
-      - name: Lint jQuery
-        run: npx eslint -c ${ciLintConfigFileName}${extension} --ext .js,.jsx,.ts,.tsx --fix .
-`
-  setCiFile(text)
+
+export const execLint = () => {
+  const { status, fileName, extension } = generateLintConfigFile('.json')
+  const configText = generateConfigText()
+  if (status === 'init') {
+    const text = JSON.stringify(configText, null, 2)
+    fs.writeFileSync(fileName, text)
+  } else if (status === 'exist') {
+    const obj = JSON.parse(fs.readFileSync(fileName, 'utf-8')) as ESLintConfig
+
+    if (!obj) {
+      const text = JSON.stringify(configText, null, 2)
+      fs.writeFileSync(fileName, text)
+      return
+    }
+
+    generateLintConfig(obj)
+    const text = JSON.stringify(configText, null, 2)
+    fs.writeFileSync(fileName, text)
+  }
+  spawnSync('npx', ['eslint', '-c', `${ciLintConfigFileName}${extension}`, '--ext', '.js,.jsx,.ts,.tsx', '--fix', '.'], { stdio: 'inherit' })
 }

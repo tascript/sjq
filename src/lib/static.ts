@@ -19,6 +19,3 @@ export const generateConfigText = () => {
 
 export const packages = ['eslint', 'eslint-plugin-jquery', 'typescript', '@typescript-eslint/eslint-plugin', '@typescript-eslint/parser', 'eslint-plugin-diff'] as const
 export const ciLintConfigFileName = '.eslintrc_ci.sjq'
-export const ciPriDirName = '.github'
-export const ciSecDirName = 'workflows'
-export const ciBaseName = 'sjq.yml'

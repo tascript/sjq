@@ -1,6 +1,6 @@
-import { install, getPackageManager } from './lib/package'
-import { setJsonConfig } from './lib/json'
+import { installPackages, getPackageManager } from './lib/package'
+import { execLint } from './lib/config'
 
 const manager = getPackageManager()
-install(manager)
-setJsonConfig(manager)
+installPackages(manager)
+execLint()

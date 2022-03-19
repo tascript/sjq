@@ -34,7 +34,7 @@ export const generateInstallCommand = (manager: string): string[] => {
   return command
 }
 
-export const install = (manager: string) => {
+export const installPackages = (manager: string) => {
   const command = generateInstallCommand(manager)
   spawnSync(command[0], [...command.slice(1), ...packages], { stdio: 'inherit' })
 }
