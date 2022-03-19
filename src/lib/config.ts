@@ -54,7 +54,7 @@ export const execLint = () => {
     fs.writeFileSync(fileName, text)
   }
   const res = spawnSync('npx', ['eslint', '-c', `${ciLintConfigFileName}${extension}`, '--ext', '.js,.jsx,.ts,.tsx', '--fix', '.'], { stdio: 'inherit' })
-  if (res.stderr) {
+  if (res.status === 1) {
     process.exit(1)
   }
 }
