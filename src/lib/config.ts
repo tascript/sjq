@@ -3,7 +3,6 @@ import { ESLintConfig } from '~/src/interface'
 import { generateLintConfigFile } from './file'
 import { ciLintConfigFileName, generateConfigText } from './static'
 import { spawnSync } from 'child_process'
-import * as core from '@actions/core'
 
 export const generateLintConfig = (obj: ESLintConfig) => {
   if (obj.plugins) {
@@ -54,5 +53,5 @@ export const execLint = () => {
     const text = JSON.stringify(configText, null, 2)
     fs.writeFileSync(fileName, text)
   }
-  spawnSync('npx', ['eslint', '-c', `${ciLintConfigFileName}${extension}`, '--ext', '.js,.jsx,.ts,.tsx', '--fix', '.'], { stdio: 'inherit', env: { ESLINT_PLUGIN_DIFF_COMMIT: core.getInput('eslint-plugin-diff-commit') } })
+  spawnSync('npx', ['eslint', '-c', `${ciLintConfigFileName}${extension}`, '--ext', '.js,.jsx,.ts,.tsx', '--fix', '.'], { stdio: 'inherit' })
 }
