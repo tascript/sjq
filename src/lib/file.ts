@@ -1,30 +1,29 @@
 import fs from 'fs'
 import path from 'path'
-import { localConfigFileName, CiConfigFileName, ciBaseName, ciPriDirName, ciSecDirName } from './static'
+import { ciLintConfigFileName, ciBaseName, ciPriDirName, ciSecDirName } from './static'
 
 type Status = 'exist' | 'init'
 
-interface SetConfigFileResponse {
+interface GenerateLintConfigFileResponse {
   extension: string
   status: Status
   fileName: string
 }
 
-export const setConfigFile = (extension: string, isCi: boolean): SetConfigFileResponse => {
-  const configFileName = isCi ? CiConfigFileName : localConfigFileName
-  const target = fs.existsSync(path.join(process.cwd(), configFileName + extension))
+export const generateLintConfigFile = (extension: string): GenerateLintConfigFileResponse => {
+  const target = fs.existsSync(path.join(process.cwd(), ciLintConfigFileName + extension))
   if (!target) {
-    fs.writeFileSync(path.join(process.cwd(), (configFileName + extension)), '')
+    fs.writeFileSync(path.join(process.cwd(), (ciLintConfigFileName + extension)), '')
     return {
       extension,
       status: 'init',
-      fileName: path.join(process.cwd(), configFileName + extension)
+      fileName: path.join(process.cwd(), ciLintConfigFileName + extension)
     }
   }
   return {
     extension,
     status: 'exist',
-    fileName: path.join(process.cwd(), configFileName + extension)
+    fileName: path.join(process.cwd(), ciLintConfigFileName + extension)
   }
 }
 

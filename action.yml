@@ -1,0 +1,5 @@
+name: "sjq"
+description: "Lint for reducing jQuery code"
+runs:
+  using: node16
+  main: dist/index.js

@@ -1,14 +1,13 @@
 import fs from 'fs'
-import { setConfigFile } from './file'
+import { generateLintConfigFile } from './file'
 import { generateConfigText } from './static'
-import { setConfig } from './config'
+import { generateLintConfig } from './config'
 import { ESLintConfig } from '~/src/interface'
-import { setPrecommit } from './package'
-import { generateCiConfig } from './yaml'
+import { generateCiConfig } from './config'
 
-export const setJsonConfig = (manager: string, isCi: boolean) => {
-  const { status, fileName, extension } = setConfigFile('.json', isCi)
-  const configText = generateConfigText(isCi)
+export const setJsonConfig = (manager: string) => {
+  const { status, fileName, extension } = generateLintConfigFile('.json')
+  const configText = generateConfigText()
   if (status === 'init') {
     const text = JSON.stringify(configText, null, 2)
     fs.writeFileSync(fileName, text)
@@ -21,9 +20,9 @@ export const setJsonConfig = (manager: string, isCi: boolean) => {
       return
     }
 
-    setConfig(obj)
+    generateLintConfig(obj)
     const text = JSON.stringify(configText, null, 2)
     fs.writeFileSync(fileName, text)
   }
-  isCi ? generateCiConfig(manager, extension) : setPrecommit(manager, extension)
+  generateCiConfig(manager, extension)
 }

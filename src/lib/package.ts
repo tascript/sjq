@@ -2,42 +2,24 @@ import fs from 'fs'
 import path from 'path'
 import { spawnSync } from 'child_process'
 import chalk from 'chalk'
-import { JsonConfig } from '~/src/interface'
-import { localConfigFileName, packages } from './static'
+import { packages } from './static'
+
+interface PackageFileConfig {
+  path: string,
+  manager: string,
+}
 
 const fileName = path.join(process.cwd(), 'package.json')
-
-export const install = (manager: string) => {
-  validJsonFile()
-  const command = generateInstallCommand(manager)
-  spawnSync(command[0], [...command.slice(1), ...packages], { stdio: 'inherit' })
-}
-
-export const setPrecommit = (manager: string, extension: string) => {
-  validJsonFile()
-  const obj = JSON.parse(fs.readFileSync(fileName, 'utf-8')) as JsonConfig
-  obj['scripts'] = {
-    ...obj['scripts'],
-    'postinstall': 'husky install',
-    'lint:sjq': `eslint -c ${localConfigFileName + extension} --ext .js,.jsx,.ts,.tsx --fix .`
+const packageFileConfig: PackageFileConfig[] = [
+  {
+    path: path.join(process.cwd(), 'package-lock.json'),
+    manager: 'npm'
+  },
+  {
+    path: path.join(process.cwd(), 'yarn.lock'),
+    manager: 'yarn'
   }
-  obj['lint-staged'] = {
-    './**/*.{js,jsx,ts,tsx}': [
-      `eslint --config ${localConfigFileName + extension} --fix`
-    ]
-  }
-  const text = JSON.stringify(obj, null, 2)
-  fs.writeFileSync(fileName, text)
-  spawnSync('npx', ['husky', 'install'], { stdio: 'inherit' })
-  spawnSync('npx', ['husky', 'add', '.husky/pre-commit', `${manager} lint-staged`], { stdio: 'inherit' })
-}
-
-const validJsonFile = () => {
-  if (!fs.existsSync(fileName)) {
-    console.log(chalk.red('Error: Please make package.json'))
-    process.exit(1)
-  }
-}
+]
 
 export const generateInstallCommand = (manager: string): string[] => {
   let command: string[] = []
@@ -50,4 +32,22 @@ export const generateInstallCommand = (manager: string): string[] => {
       break
   }
   return command
+}
+
+export const install = (manager: string) => {
+  const command = generateInstallCommand(manager)
+  spawnSync(command[0], [...command.slice(1), ...packages], { stdio: 'inherit' })
+}
+
+export const getPackageManager = (): string => {
+  if (!fs.existsSync(fileName)) {
+    console.log(chalk.red('Error: Please make package.json'))
+    process.exit(1)
+  }
+  const index = packageFileConfig.findIndex((v) => fs.existsSync(v.path))
+  if (index < 0) {
+    console.log(chalk.red('Error: Please execute package install command'))
+    process.exit(1)
+  }
+  return packageFileConfig[index].manager
 }
