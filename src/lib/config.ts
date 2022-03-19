@@ -1,6 +1,10 @@
+import fs from 'fs'
 import { ESLintConfig } from '~/src/interface'
+import { generateLintConfigFile } from './file'
+import { ciLintConfigFileName, generateConfigText } from './static'
+import { spawnSync } from 'child_process'
 
-export const setConfig = (obj: ESLintConfig) => {
+export const generateLintConfig = (obj: ESLintConfig) => {
   if (obj.plugins) {
     if (!obj.plugins.includes('jquery')) {
       obj.plugins.push('jquery')
@@ -27,5 +31,30 @@ export const setConfig = (obj: ESLintConfig) => {
   obj.parserOptions = {
     ecmaVersion: 'latest',
     sourceType: 'module'
+  }
+}
+
+export const execLint = () => {
+  const { status, fileName, extension } = generateLintConfigFile('.json')
+  const configText = generateConfigText()
+  if (status === 'init') {
+    const text = JSON.stringify(configText, null, 2)
+    fs.writeFileSync(fileName, text)
+  } else if (status === 'exist') {
+    const obj = JSON.parse(fs.readFileSync(fileName, 'utf-8')) as ESLintConfig
+
+    if (!obj) {
+      const text = JSON.stringify(configText, null, 2)
+      fs.writeFileSync(fileName, text)
+      return
+    }
+
+    generateLintConfig(obj)
+    const text = JSON.stringify(configText, null, 2)
+    fs.writeFileSync(fileName, text)
+  }
+  const res = spawnSync('npx', ['eslint', '-c', `${ciLintConfigFileName}${extension}`, '--ext', '.js,.jsx,.ts,.tsx', '--fix', '.'], { stdio: 'inherit' })
+  if (res.status === 1) {
+    process.exit(1)
   }
 }

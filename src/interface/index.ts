@@ -7,12 +7,3 @@ export interface ESLintConfig extends Object {
     sourceType: 'script' | 'module'
   }
 }
-
-export interface JsonConfig extends Object {
-  scripts?: {
-    [index: string]: string
-  },
-  'lint-staged': {
-    [index: string]: string[]
-  },
-}

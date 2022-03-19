@@ -1,5 +1,5 @@
-export const generateConfigText = (isCi: boolean) => {
-  const base = {
+export const generateConfigText = () => {
+  return {
     plugins: [
       'jquery',
       '@typescript-eslint'
@@ -7,6 +7,7 @@ export const generateConfigText = (isCi: boolean) => {
     extends: [
       'eslint:recommended',
       'plugin:jquery/deprecated',
+      'plugin:diff/diff'
     ],
     parser: '@typescript-eslint/parser',
     parserOptions: {
@@ -14,15 +15,7 @@ export const generateConfigText = (isCi: boolean) => {
       sourceType: 'module'
     }
   }
-  const diff = isCi ? 'plugin:diff/diff' : 'plugin:diff/staged'
-  base.extends.push(diff)
-  return base
 }
 
-export const packages = ['eslint', 'eslint-plugin-jquery', 'husky', 'lint-staged', 'typescript', '@typescript-eslint/eslint-plugin', '@typescript-eslint/parser', 'eslint-plugin-diff'] as const
-export const packageNames = packages.reduce((pre, cur) => pre + `'${cur}', `, '').slice(0, -2)
-export const localConfigFileName = '.eslintrc_local.sjq'
-export const CiConfigFileName = '.eslintrc_ci.sjq'
-export const ciPriDirName = '.github'
-export const ciSecDirName = 'workflows'
-export const ciBaseName = 'sjq.yml'
+export const packages = ['eslint', 'eslint-plugin-jquery', 'typescript', '@typescript-eslint/eslint-plugin', '@typescript-eslint/parser', 'eslint-plugin-diff'] as const
+export const ciLintConfigFileName = '.eslintrc_ci.sjq'

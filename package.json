@@ -1,6 +1,6 @@
 {
   "name": "sjq",
-  "version": "0.0.9",
+  "version": "0.1.0",
   "description": "lint config generator for reducing jQuery",
   "main": "dist/index.js",
   "scripts": {
@@ -23,17 +23,13 @@
   "author": "tascript",
   "license": "MIT",
   "dependencies": {
-    "chalk": "^4.1.2",
-    "prompts": "^2.4.2",
-    "yargs": "^17.3.1"
+    "chalk": "^4.1.2"
   },
   "devDependencies": {
     "@rollup/plugin-commonjs": "^21.0.1",
     "@rollup/plugin-node-resolve": "^13.0.6",
     "@rollup/plugin-typescript": "^8.3.0",
     "@types/jquery": "^3.5.8",
-    "@types/prompts": "^2.0.14",
-    "@types/yargs": "^17.0.8",
     "chalk": "^4.1.2",
     "jest": "^27.3.1",
     "jquery": "^3.6.0",
